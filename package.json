@@ -1,14 +1,19 @@
 {
-  "name": "payload-plugin-form-builder",
-  "version": "1.0.14",
+  "name": "@finkinfridom/payload-plugin-form-builder",
+  "version": "1.0.15",
   "homepage:": "https://payloadcms.com",
   "repository": "git@github.com:payloadcms/finkinfridom/plugin-form-builder.git",
   "description": "Form builder plugin for Payload CMS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "private": false,
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "payload",

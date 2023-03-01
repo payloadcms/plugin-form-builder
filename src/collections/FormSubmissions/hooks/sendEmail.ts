@@ -14,7 +14,8 @@ const sendEmail = async (beforeChangeData: any, formConfig: PluginConfig) => {
         id: formSubmissionID
       },
       req: {
-        payload
+        payload,
+        locale
       }
     } = beforeChangeData;
 
@@ -32,6 +33,7 @@ const sendEmail = async (beforeChangeData: any, formConfig: PluginConfig) => {
       const form = await payload.findByID({
         id: formID,
         collection: formOverrides?.slug || 'forms',
+        locale
       });
 
       if (form) {
@@ -82,9 +84,19 @@ const sendEmail = async (beforeChangeData: any, formConfig: PluginConfig) => {
               try {
                 const emailPromise = await payload.sendEmail(email);
                 return emailPromise;
-              } catch (err) {
+              } catch (err: any) {
                 console.error(`Error while sending email to address: ${to}. Email not sent.`);
-                console.error(err);
+                if (
+                  err.response &&
+                  err.response.body &&
+                  err.response.body.errors
+                ) {
+                  err.response.body.errors.forEach((error: any) =>
+                    console.log("%s: %s", error.field, error.message)
+                  );
+                } else {
+                  console.log(err);
+                }
               }
             })
           );

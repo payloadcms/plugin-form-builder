@@ -1,8 +1,8 @@
 {
   "name": "@payloadcms/plugin-form-builder",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "homepage:": "https://payloadcms.com",
-  "repository": "git@github.com:payloadcms/plugin-form-builder.git",
+  "repository": "git@github.com:payloadcms/finkinfridom/plugin-form-builder.git",
   "description": "Form builder plugin for Payload CMS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "form builder",
     "payments"
   ],
-  "author": "dev@payloadcms.com",
+  "author": "a.maghini@gmail.com",
   "license": "MIT",
   "peerDependencies": {
     "payload": "^0.18.5 || ^1.0.0",

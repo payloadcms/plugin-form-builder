@@ -1,5 +1,5 @@
 {
-  "name": "@payloadcms/plugin-form-builder",
+  "name": "payload-plugin-form-builder",
   "version": "1.0.14",
   "homepage:": "https://payloadcms.com",
   "repository": "git@github.com:payloadcms/finkinfridom/plugin-form-builder.git",

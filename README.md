@@ -65,8 +65,6 @@ export default config;
   }
   ```
 
-  You can also provide your own custom field definitions by passing a new [Payload Block](https://payloadcms.com/docs/fields/blocks#block-configs) object into `fields`.
-
 - `redirectRelationships`
 
   An array of collection slugs that, when enabled, are populated as options in form redirect fields.
@@ -118,25 +116,14 @@ export default config;
     access: {
       read: () => true,
       update: () => false,
-    }
-  }
-  ```
-
-  You can override or extend any provided fields by importing `fields` and spreading the configs into your own.
-
-  ```ts
-  import { fields } from "@payloadcms/plugin-form-builder";
-  ```
-
-  ```ts
-  formOverrides: {
-    slug: "contact-forms",
-    fields: {
-      text: {
-        ...fields.text,
-        name: "custom-name",
+    },
+    fields: [
+      {
+        name: "title",
+        label: "Title",
+        type: "text",
       }
-    }
+    ]
   }
   ```
 
@@ -155,8 +142,9 @@ export default config;
 ## Fields
 
 Each field represents a form input. To override default settings pass either a boolean value or a partial [Payload Block](https://payloadcms.com/docs/fields/blocks) _keyed to the block's slug_.
+See [Field Overrides](#field-overrides) for more details on how to do this.
 
-> NOTE: This is different to how Payload `fields` are typically shaped, which is as an array of field configs instead of a keyed object. This is because the form builder plugin is designed to allow you to _turn off_ fields you don't want to use with a simple `false` value.
+> NOTE: "fields" here are in reference to the _fields to build forms with_, not to be confused with the _fields of a collection_ which are set via `formOverrides.fields`.
 
 - `text`
   - `name`: string
@@ -222,6 +210,25 @@ Each field represents a form input. To override default settings pass either a b
     - `operator`: string - `add`, `subtract`, `multiply`, `divide`
     - `valueType`: string - `static`, `valueOfField`
     - `value`: string - only if `valueType` is `static`
+
+  ### Field Overrides
+
+  You can also provide your own custom field definitions by passing a new [Payload Block](https://payloadcms.com/docs/fields/blocks#block-configs) object into `fields`. You can override or extend any existing fields by first importing the `fields` from the plugin:
+
+  ```ts
+  import { fields } from "@payloadcms/plugin-form-builder";
+  ```
+
+  Then merging it into your own custom field:
+
+  ```ts
+  fields: {
+    text: {
+      ...fields.text,
+      name: "custom-name",
+    }
+  }
+  ```
 
 ## Email
 

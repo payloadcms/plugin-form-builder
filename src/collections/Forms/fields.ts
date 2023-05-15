@@ -570,7 +570,7 @@ const Message: Block = {
   ],
 };
 
-export default {
+export const fields = {
   select: Select,
   checkbox: Checkbox,
   text: Text,
@@ -584,3 +584,5 @@ export default {
 } as {
   [key: string]: Block | ((fieldConfig?: boolean | FieldConfig) => Block)
 };
+
+export default fields;

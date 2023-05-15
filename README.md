@@ -115,12 +115,28 @@ export default config;
   ```ts
   formOverrides: {
     slug: "contact-forms",
-    fields: [
-      {
-        name: "custom-field",
-        type: "text"
+    access: {
+      read: () => true,
+      update: () => false,
+    }
+  }
+  ```
+
+  You can override or extend any provided fields by importing `fields` and spreading the configs into your own.
+
+  ```ts
+  import { fields } from "@payloadcms/plugin-form-builder";
+  ```
+
+  ```ts
+  formOverrides: {
+    slug: "contact-forms",
+    fields: {
+      text: {
+        ...fields.text,
+        name: "custom-name",
       }
-    ]
+    }
   }
   ```
 
@@ -132,66 +148,68 @@ export default config;
 
   ```js
   formSubmissionOverrides: {
-    slug: "leads";
+    slug: "leads",
   }
   ```
 
 ## Fields
 
-Each field represents a form input. To override default settings pass either a boolean value or a partial [Payload Block](https://payloadcms.com/docs/fields/blocks) keyed to the block's slug.
+Each field represents a form input. To override default settings pass either a boolean value or a partial [Payload Block](https://payloadcms.com/docs/fields/blocks) _keyed to the block's slug_.
 
-- Text
+> NOTE: This is different to how Payload `fields` are typically shaped, which is as an array of field configs instead of a keyed object. This is because the form builder plugin is designed to allow you to _turn off_ fields you don't want to use with a simple `false` value.
+
+- `text`
   - `name`: string
   - `label`: string
   - `defaultValue`: string
   - `width`: string
   - `required`: checkbox
-- Textarea
+- `textarea`
   - `name`: string
   - `label`: string
   - `defaultValue`: string
   - `width`: string
   - `required`: checkbox
-- Select
+- `select`
   - `name`: string
   - `label`: string
   - `defaultValue`: string
   - `width`: string
   - `options`: array
   - `required`: checkbox
-- Email
+- `email`
   - `name`: string
   - `label`: string
   - `defaultValue`: string
   - `width`: string
   - `required`: checkbox
-- State
+- `state`
   - `name`: string
   - `label`: string
   - `defaultValue`: string
   - `width`: string
   - `required`: checkbox
-- Country
+- `country`
   - `name`: string
   - `label`: string
   - `defaultValue`: string
   - `width`: string
   - `required`: checkbox
-- Checkbox
+- `checkbox`
   - `name`: string
   - `label`: string
   - `defaultValue`: checkbox
   - `width`: string
   - `required`: checkbox
-- Number
+- `number`
   - `name`: string
   - `label`: string
   - `defaultValue`: number
   - `width`: string
   - `required`: checkbox
-- Message
+- `message`
   - `message`: richText
-- Payment
+- `payment`
   - `name`: string
   - `label`: string
   - `defaultValue`: number

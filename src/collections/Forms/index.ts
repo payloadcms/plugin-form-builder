@@ -2,7 +2,7 @@ import merge from 'deepmerge'
 import type { Block, CollectionConfig, Field } from 'payload/types'
 
 import type { FieldConfig, PluginConfig } from '../../types'
-import { fields } from './fields'
+import { fields as baseFields } from './fields'
 
 // all settings can be overridden by the config
 export const generateFormCollection = (formConfig: PluginConfig): CollectionConfig => {
@@ -86,27 +86,33 @@ export const generateFormCollection = (formConfig: PluginConfig): CollectionConf
         blocks: Object.entries(formConfig?.fields || {})
           .map(([fieldKey, fieldConfig]) => {
             // let the config enable/disable fields with either boolean values or objects
-            if (fieldConfig !== false) {
-              let block = fields[fieldKey]
-
-              if (block === undefined && typeof fieldConfig === 'object') {
-                return fieldConfig
-              }
-
-              if (typeof block === 'object' && typeof fieldConfig === 'object') {
-                return merge<FieldConfig>(block, fieldConfig, {
-                  arrayMerge: (_, sourceArray) => sourceArray,
-                })
-              }
-
-              if (typeof block === 'function') {
-                return block(fieldConfig)
-              }
-
-              return block
+            if (typeof fieldConfig === 'boolean' && fieldConfig === false) {
+              return null
             }
 
-            return null
+            let baseField = baseFields?.[fieldKey as keyof typeof baseFields]
+
+            // this is a new, custom block that does not have a default
+            // it is of `Block` type, so we can just return it
+            if (baseField === undefined && typeof fieldConfig === 'object') {
+              return fieldConfig
+            }
+
+            // this is a partial field, so merge it into the default block
+            if (typeof baseField === 'object' && typeof fieldConfig === 'object') {
+              return merge<FieldConfig>(baseField, fieldConfig, {
+                arrayMerge: (_, sourceArray) => sourceArray,
+              })
+            }
+
+            // this is a custom block that has a default
+            // it is a function so they can use their own merge strategy
+            if (typeof baseField === 'function' && typeof fieldConfig === 'object') {
+              return baseField(fieldConfig)
+            }
+
+            // do nothing, return the default block as is with no modifications
+            return baseField
           })
           .filter(Boolean) as Block[],
       },

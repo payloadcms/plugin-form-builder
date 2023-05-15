@@ -1,5 +1,7 @@
 import type { Block, CollectionConfig, Field } from 'payload/types'
 
+import type formFields from './collections/Forms/fields'
+
 export interface BlockConfig {
   block: Block
   validate?: (value: unknown) => boolean | string
@@ -21,23 +23,22 @@ export type PaymentFieldConfig = Partial<Field> & {
   paymentProcessor: Partial<SelectField>
 }
 
-export type FieldConfig = Partial<Field> | PaymentFieldConfig
-
-export interface FieldsConfig {
-  select?: boolean | FieldConfig
-  text?: boolean | FieldConfig
-  textarea?: boolean | FieldConfig
-  email?: boolean | FieldConfig
-  state?: boolean | FieldConfig
-  country?: boolean | FieldConfig
-  checkbox?: boolean | FieldConfig
-  number?: boolean | FieldConfig
-  message?: boolean | FieldConfig
-  payment?: boolean | FieldConfig
-  [key: string]: boolean | FieldConfig | undefined
+export interface FunctionThatReturnsBlock {
+  (fieldConfig?: boolean | Partial<Field> | PaymentFieldConfig): Block
 }
 
+export type FieldsConfig = {
+  [key in keyof typeof formFields]: boolean | Partial<Field>
+} & {
+  payment: boolean | PaymentFieldConfig
+} & {
+  [key: string]: Block | FunctionThatReturnsBlock
+}
+
+export type FieldConfig = FieldsConfig[keyof FieldsConfig]
+
 export type BeforeEmail = (emails: FormattedEmail[]) => FormattedEmail[] | Promise<FormattedEmail[]>
+
 export type HandlePayment = (data: any) => void
 
 export interface PluginConfig {

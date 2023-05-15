@@ -68,6 +68,10 @@ export default buildConfig({
       fields: {
         payment: true,
         colorField,
+        newFieldBlock: {
+          slug: 'custom-text-field',
+          fields: [],
+        },
         text: {
           ...fields.text,
           labels: {

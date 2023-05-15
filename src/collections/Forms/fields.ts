@@ -1,6 +1,6 @@
 import type { Block, Field } from 'payload/types'
 
-import type { FieldConfig, PaymentFieldConfig } from '../../types'
+import type { FunctionThatReturnsBlock } from '../../types'
 import { DynamicFieldSelector } from './DynamicFieldSelector'
 import { DynamicPriceSelector } from './DynamicPriceSelector'
 
@@ -392,9 +392,10 @@ const Checkbox: Block = {
   ],
 }
 
-const Payment = (fieldConfig: PaymentFieldConfig): Block => {
+const Payment: FunctionThatReturnsBlock = fieldConfig => {
   let paymentProcessorField = null
-  if (fieldConfig?.paymentProcessor) {
+
+  if (fieldConfig && typeof fieldConfig === 'object' && 'paymentProcessor' in fieldConfig) {
     paymentProcessorField = {
       type: 'select',
       options: [],
@@ -571,7 +572,6 @@ const Message: Block = {
   ],
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 export const fields = {
   select: Select,
   checkbox: Checkbox,
@@ -583,8 +583,6 @@ export const fields = {
   country: Country,
   state: State,
   payment: Payment,
-} as {
-  [key: string]: Block | ((fieldConfig?: boolean | FieldConfig) => Block)
 }
 
 export default fields

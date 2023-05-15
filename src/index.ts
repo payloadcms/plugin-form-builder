@@ -23,7 +23,7 @@ const FormBuilder =
         checkbox: true,
         message: true,
         payment: false,
-        ...incomingFormConfig.fields,
+        ...(incomingFormConfig?.fields || {}),
       },
     }
 

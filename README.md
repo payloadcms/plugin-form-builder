@@ -119,9 +119,8 @@ export default config;
     },
     fields: [
       {
-        name: "title",
-        label: "Title",
-        type: "text",
+        name: "custom-field",
+        type: "text"
       }
     ]
   }
@@ -141,8 +140,7 @@ export default config;
 
 ## Fields
 
-Each field represents a form input. To override default settings pass either a boolean value or a partial [Payload Block](https://payloadcms.com/docs/fields/blocks) _keyed to the block's slug_.
-See [Field Overrides](#field-overrides) for more details on how to do this.
+Each field represents a form input. To override default settings pass either a boolean value or a partial [Payload Block](https://payloadcms.com/docs/fields/blocks) _keyed to the block's slug_. See [Field Overrides](#field-overrides) for more details on how to do this.
 
 > NOTE: "fields" here are in reference to the _fields to build forms with_, not to be confused with the _fields of a collection_ which are set via `formOverrides.fields`.
 
@@ -225,7 +223,10 @@ See [Field Overrides](#field-overrides) for more details on how to do this.
   fields: {
     text: {
       ...fields.text,
-      name: "custom-name",
+      labels: {
+        singular: "Custom Text Field",
+        plural: "Custom Text Fields",
+      }
     }
   }
   ```

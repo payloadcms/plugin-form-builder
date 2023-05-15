@@ -8,7 +8,7 @@ const sendEmail = async (beforeChangeData: any, formConfig: PluginConfig): Promi
   if (operation === 'create') {
     const {
       data: { id: formSubmissionID },
-      req: { payload },
+      req: { payload, locale },
     } = beforeChangeData
 
     const { form: formID, submissionData } = data || {}
@@ -19,6 +19,7 @@ const sendEmail = async (beforeChangeData: any, formConfig: PluginConfig): Promi
       const form = await payload.findByID({
         id: formID,
         collection: formOverrides?.slug || 'forms',
+        locale,
       })
 
       if (form) {
@@ -70,8 +71,9 @@ const sendEmail = async (beforeChangeData: any, formConfig: PluginConfig): Promi
                 const emailPromise = await payload.sendEmail(email)
                 return emailPromise
               } catch (err: unknown) {
-                const msg = `Error while sending email to address: ${to}. Email not sent.`
-                payload.logger.error({ msg })
+                payload.logger.error({
+                  err: `Error while sending email to address: ${to}. Email not sent: ${err}`,
+                })
               }
             }),
           )

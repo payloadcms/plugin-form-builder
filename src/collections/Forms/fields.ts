@@ -32,6 +32,7 @@ const width: Field = {
 
 const Select: Block = {
   slug: 'select',
+  interfaceName: 'IFormSelectBlock',
   labels: {
     singular: 'Select',
     plural: 'Select Fields',
@@ -115,6 +116,7 @@ const Select: Block = {
 
 const Text: Block = {
   slug: 'text',
+  interfaceName: 'IFormTextBlock',
   labels: {
     singular: 'Text',
     plural: 'Text Fields',
@@ -163,6 +165,7 @@ const Text: Block = {
 
 const TextArea: Block = {
   slug: 'textarea',
+  interfaceName: 'IFormTextareaBlock',
   labels: {
     singular: 'Text Area',
     plural: 'Text Area Fields',
@@ -211,6 +214,7 @@ const TextArea: Block = {
 
 const Number: Block = {
   slug: 'number',
+  interfaceName: 'IFormNumberBlock',
   labels: {
     singular: 'Number',
     plural: 'Number Fields',
@@ -258,6 +262,7 @@ const Number: Block = {
 
 const Email: Block = {
   slug: 'email',
+  interfaceName: 'IFormEmailBlock',
   labels: {
     singular: 'Email',
     plural: 'Email Fields',
@@ -287,6 +292,7 @@ const Email: Block = {
 
 const State: Block = {
   slug: 'state',
+  interfaceName: 'IFormStateBlock',
   labels: {
     singular: 'State',
     plural: 'State Fields',
@@ -316,6 +322,7 @@ const State: Block = {
 
 const Country: Block = {
   slug: 'country',
+  interfaceName: 'IFormCountryBlock',
   labels: {
     singular: 'Country',
     plural: 'Country Fields',
@@ -345,6 +352,7 @@ const Country: Block = {
 
 const Checkbox: Block = {
   slug: 'checkbox',
+  interfaceName: 'IFormCheckboxBlock',
   labels: {
     singular: 'Checkbox',
     plural: 'Checkbox Fields',
@@ -406,6 +414,7 @@ const Payment = (fieldConfig: PaymentFieldConfig): Block => {
 
   const fields = {
     slug: 'payment',
+    interfaceName: 'IFormPaymentBlock',
     labels: {
       singular: 'Payment',
       plural: 'Payment Fields',
@@ -558,6 +567,7 @@ const Payment = (fieldConfig: PaymentFieldConfig): Block => {
 
 const Message: Block = {
   slug: 'message',
+  interfaceName: 'IFormMessageBlock',
   labels: {
     singular: 'Message',
     plural: 'Message Blocks',

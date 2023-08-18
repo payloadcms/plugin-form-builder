@@ -24,6 +24,12 @@ const required: Field = {
   type: 'checkbox',
 }
 
+const multiple: Field = {
+  name: 'multiple',
+  label: 'Multiple',
+  type: 'checkbox',
+}
+
 const width: Field = {
   name: 'width',
   label: 'Field Width (percentage)',
@@ -109,7 +115,23 @@ const Select: Block = {
         },
       ],
     },
-    required,
+    {
+      type: 'row',
+      fields: [
+        {
+          ...required,
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          ...multiple,
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
+    },
   ],
 }
 

@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload/types'
 import type { PluginConfig } from '../../types'
 import createCharge from './hooks/createCharge'
 import sendEmail from './hooks/sendEmail'
+import validateSubmissionField from './validators/validateSubmissionField'
 
 // all settings can be overridden by the config
 export const generateSubmissionCollection = (formConfig: PluginConfig): CollectionConfig => {
@@ -53,23 +54,7 @@ export const generateSubmissionCollection = (formConfig: PluginConfig): Collecti
             name: 'value',
             type: 'text',
             required: true,
-            validate: (value: unknown) => {
-              // TODO:
-              // create a validation function that dynamically
-              // relies on the field type and its options as configured.
-
-              // How to access sibling data from this field?
-              // Need the `name` of the field in order to validate it.
-
-              // Might not be possible to use this validation function.
-              // Instead, might need to do all validation in a `beforeValidate` collection hook.
-
-              if (typeof value !== 'undefined') {
-                return true
-              }
-
-              return 'This field is required.'
-            },
+            validate: validateSubmissionField(formConfig),
           },
         ],
       },

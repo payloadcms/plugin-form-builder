@@ -4,6 +4,7 @@ import type { PluginConfig } from '../../types'
 import createCharge from './hooks/createCharge'
 import sendEmail from './hooks/sendEmail'
 import validateSubmissionField from './validators/validateSubmissionField'
+import { prepareSubmissionForValidation } from './hooks/validateSubmission'
 
 // all settings can be overridden by the config
 export const generateSubmissionCollection = (formConfig: PluginConfig): CollectionConfig => {
@@ -25,6 +26,10 @@ export const generateSubmissionCollection = (formConfig: PluginConfig): Collecti
         data => createCharge(data, formConfig),
         data => sendEmail(data, formConfig),
         ...(formConfig?.formSubmissionOverrides?.hooks?.beforeChange || []),
+      ],
+      beforeValidate: [
+        data => prepareSubmissionForValidation(data, formConfig),
+        ...(formConfig?.formSubmissionOverrides?.hooks?.beforeValidate || []),
       ],
       ...(formConfig?.formSubmissionOverrides?.hooks || {}),
     },

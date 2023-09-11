@@ -263,7 +263,7 @@ To actively develop or debug this plugin you can either work directly within the
    1. First clone the repo
    1. Then, `cd YOUR_PLUGIN_REPO && yarn && cd demo && cp .env.example .env && yarn`
    1. Start the database - You can either use Docker `docker compose up` or a locally installed MongoDB instance
-   1. Start payload `cd YOUR_PLUGIN_REPO/demo && yarn dev`
+   1. Start Payload `yarn dev`
    1. Now open `http://localhost:3000/admin` in your browser
    1. Enter username `dev@payloadcms.com` and password `test`
 

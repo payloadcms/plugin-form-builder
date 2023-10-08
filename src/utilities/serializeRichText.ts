@@ -12,34 +12,39 @@ interface Node {
   children?: Node[]
 }
 
-export const serialize = (children?: Node[], submissionData?: any): string | undefined =>
-  children
+export const serialize = (children?: Node[], submissionData?: any): string | undefined => {
+  if (children && !Array.isArray(children) && 'root' in children) {
+    console.error('sendEmail => serializeRichText => Lexical serialization is not supported yet. Currently, only Slate is supported.')
+    return '<div>Lexical serialization is not supported yet.</div>'
+  }
+
+  return children
     ?.map((node: Node) => {
       if (Text.isText(node)) {
         let text = `<span>${escapeHTML(replaceDoubleCurlys(node.text, submissionData))}</span>`
 
         if (node.bold) {
           text = `
-        <strong>
-          ${text}
-        </strong>
-      `
+      <strong>
+        ${text}
+      </strong>
+    `
         }
 
         if (node.code) {
           text = `
-        <code>
-          ${text}
-        </code>
-      `
+      <code>
+        ${text}
+      </code>
+    `
         }
 
         if (node.italic) {
           text = `
-        <em >
-          ${text}
-        </em>
-      `
+      <em >
+        ${text}
+      </em>
+    `
         }
 
         return text
@@ -52,60 +57,62 @@ export const serialize = (children?: Node[], submissionData?: any): string | und
       switch (node.type) {
         case 'h1':
           return `
-        <h1>
-          ${serialize(node.children, submissionData)}
-        </h1>
-      `
+      <h1>
+        ${serialize(node.children, submissionData)}
+      </h1>
+    `
         case 'h6':
           return `
-        <h6>
-          ${serialize(node.children, submissionData)}
-        </h6>
-      `
+      <h6>
+        ${serialize(node.children, submissionData)}
+      </h6>
+    `
         case 'quote':
           return `
-        <blockquote>
-          ${serialize(node.children, submissionData)}
-        </blockquote>
-      `
+      <blockquote>
+        ${serialize(node.children, submissionData)}
+      </blockquote>
+    `
         case 'ul':
           return `
-        <ul>
-          ${serialize(node.children, submissionData)}
-        </ul>
-      `
+      <ul>
+        ${serialize(node.children, submissionData)}
+      </ul>
+    `
         case 'ol':
           return `
-        <ol>
-          ${serialize(node.children, submissionData)}
-        </ol>
-      `
+      <ol>
+        ${serialize(node.children, submissionData)}
+      </ol>
+    `
         case 'li':
           return `
-        <li>
-          ${serialize(node.children, submissionData)}
-        </li>
-      `
+      <li>
+        ${serialize(node.children, submissionData)}
+      </li>
+    `
         case 'indent':
           return `
-          <p style="padding-left: 20px">
-            ${serialize(node.children, submissionData)}
-          </p>
-        `
+        <p style="padding-left: 20px">
+          ${serialize(node.children, submissionData)}
+        </p>
+      `
         case 'link':
           return `
-        <a href={${escapeHTML(node.url)}}>
-          ${serialize(node.children, submissionData)}
-        </a>
-      `
+      <a href={${escapeHTML(node.url)}}>
+        ${serialize(node.children, submissionData)}
+      </a>
+    `
 
         default:
           return `
-        <p>
-          ${serialize(node.children, submissionData)}
-        </p>
-     `
+      <p>
+        ${serialize(node.children, submissionData)}
+      </p>
+   `
       }
     })
     .filter(Boolean)
     .join('')
+}
+

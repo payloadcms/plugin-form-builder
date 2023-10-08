@@ -30,8 +30,8 @@
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
-    "@types/escape-html": "^1.0.1",
     "@payloadcms/eslint-config": "^0.0.1",
+    "@types/escape-html": "^1.0.1",
     "@types/express": "^4.17.9",
     "@types/node": "20.5.7",
     "@types/react": "18.2.15",
@@ -60,6 +60,7 @@
   ],
   "dependencies": {
     "deepmerge": "^4.2.2",
-    "escape-html": "^1.0.3"
+    "escape-html": "^1.0.3",
+    "slate": "^0.94.1"
   }
 }

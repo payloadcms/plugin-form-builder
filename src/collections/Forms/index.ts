@@ -81,34 +81,78 @@ export const generateFormCollection = (formConfig: PluginConfig): CollectionConf
         required: true,
       },
       {
-        name: 'fields',
-        type: 'blocks',
-        blocks: Object.entries(formConfig?.fields || {})
-          .map(([fieldKey, fieldConfig]) => {
-            // let the config enable/disable fields with either boolean values or objects
-            if (fieldConfig !== false) {
-              let block = fields[fieldKey]
+        name: 'step',
+        label: 'Step',
+        interfaceName: 'formStep',
+        type: 'array',
+        maxRows: 3,
+        fields: [
+          {
+            name: 'stepName',
+            type: 'text',
+            admin: {
+              description: 'This would be shown on the step in the UI',
+            },
+          },
+          {
+            name: 'stepHeader',
+            type: 'text',
+            admin: {
+              description: 'This is the header shown while this step is active',
+            },
+          },
+          {
+            name: 'fields',
+            type: 'blocks',
+            blocks: Object.entries(formConfig?.fields || {})
+              .map(([fieldKey, fieldConfig]) => {
+                // let the config enable/disable fields with either boolean values or objects
+                if (fieldConfig !== false) {
+                  let block = fields[fieldKey]
 
-              if (block === undefined && typeof fieldConfig === 'object') {
-                return fieldConfig
-              }
+                  if (block === undefined && typeof fieldConfig === 'object') {
+                    return fieldConfig
+                  }
 
-              if (typeof block === 'object' && typeof fieldConfig === 'object') {
-                return merge<FieldConfig>(block, fieldConfig, {
-                  arrayMerge: (_, sourceArray) => sourceArray,
-                })
-              }
+                  if (typeof block === 'object' && typeof fieldConfig === 'object') {
+                    return merge<FieldConfig>(block, fieldConfig, {
+                      arrayMerge: (_, sourceArray) => sourceArray,
+                    })
+                  }
 
-              if (typeof block === 'function') {
-                return block(fieldConfig)
-              }
+                  if (typeof block === 'function') {
+                    return block(fieldConfig)
+                  }
 
-              return block
-            }
+                  return block
+                }
 
-            return null
-          })
-          .filter(Boolean) as Block[],
+                return null
+              })
+              .filter(Boolean) as Block[],
+          },
+          {
+            name: 'showStepButton',
+            type: 'checkbox',
+          },
+          {
+            name: 'buttonLabel',
+            type: 'text',
+            defaultValue: 'Continue',
+            admin: {
+              condition: (_, { showStepButton }) => Boolean(showStepButton),
+            },
+          },
+          {
+            name: 'previousButtonLabel',
+            type: 'text',
+            defaultValue: 'Previous',
+            admin: {
+              description:
+                'Text for button to go back to previous step.  If button not desired leave blank and no button will render',
+            },
+          },
+        ],
       },
       {
         name: 'submitButtonLabel',
